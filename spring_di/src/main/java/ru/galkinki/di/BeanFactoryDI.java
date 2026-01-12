@@ -1,0 +1,26 @@
+package ru.galkinki.di;
+
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import ru.galkinki.di.model.StartUI;
+import ru.galkinki.di.model.Store;
+
+/*
+BeanFactory содержит методы получения бинов из контекста.
+Интерфейс BeanFactory имеет множество реализаций.
+В этом примере мы рассмотрим самый примитивный - DefaultListableBeanFactory
+ */
+public class BeanFactoryDI {
+  public static void main(String[] args) {
+    DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
+    BeanDefinition storeDefinition = BeanDefinitionBuilder.rootBeanDefinition(Store.class).getBeanDefinition();
+    BeanDefinition beanDefinition = BeanDefinitionBuilder.rootBeanDefinition(StartUI.class).getBeanDefinition();
+    defaultListableBeanFactory.registerBeanDefinition("store", storeDefinition);
+    defaultListableBeanFactory.registerBeanDefinition("ui", beanDefinition);
+    StartUI ui = defaultListableBeanFactory.createBean(StartUI.class);
+    ui.add("Galkin Konstantin");
+    ui.add("Ivan ivanov");
+    ui.print();
+  }
+}
